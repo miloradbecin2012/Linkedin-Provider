@@ -4,8 +4,12 @@
   "description": "Passport for LinkedIn OAuth2 API",
   "main": "server",
   "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "heroku-postbuild": "npm run start",
     "test": "mocha -t 5000"
   },
+  
   "devDependencies": {
     "ejs": "^2.6.1",
     "express": "^3.x.x",

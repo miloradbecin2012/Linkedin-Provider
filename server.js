@@ -6,8 +6,8 @@ var express = require('express')
 // https://www.linkedin.com/secure/developer
 var LINKEDIN_CLIENT_ID = process.env.LINKEDIN_CLIENT_ID || "78gnstio4vh7yu";
 var LINKEDIN_CLIENT_SECRET = process.env.LINKEDIN_CLIENT_SECRET || "5SPI285k7rTf0h3K";
-var CALLBACK_URL = process.env.CALLBACK_URL || 'http://localhost:8080/auth/linkedin/callback';
-
+// var CALLBACK_URL = process.env.CALLBACK_URL || 'http://localhost:8080/auth/linkedin/callback';
+var CALLBACK_URL = process.env.CALLBACK_URL || 'https://linkedin-provider.herokuapp.com/auth/linkedin/callback';
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
