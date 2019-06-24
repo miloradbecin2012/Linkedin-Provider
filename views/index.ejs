@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Passport-LinkedIn-OAuth2 Example</title>
+		<style>
+			.word-wrap {
+				word-break: break-word;
+			}
+			.container {
+				padding-left: 30px;
+				padding-right: 30px;
+			}
+			.token-container {
+				border: solid 1px;
+				padding: 5px;
+			}
+			.renewToken {
+				padding: 5px;
+				margin-top: 30px;
+				color: black;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<% if (!user) { %>
+				<h2>Welcome! Please log in.</h2>
+				<a href="/auth/linkedin">Login with Linkedin</a>
+			<% } else { %>
+				<h2>Hello, <%= user.displayName %>.</h2>
+				<!-- <pre><code><%= JSON.stringify(user, null, 2) %></code></pre> -->
+				<p>Name: <%= user.displayName %></p>
+				<p>Email: <%= user.emails[0].value %></p>
+			<% } %>
+
+			<% if (tokenInfo) { %>
+				<div class="token-container">
+					<p>status: <%= tokenInfo.status %></p>
+					<p id="accessToken" class="word-wrap">accessToken: <%= tokenInfo.token %></p>
+					<p class="word-wrap">refreshToken: <%= tokenInfo.refreshToken %></p>
+				</div>
+				<button class="renewToken" id=<%= tokenInfo.refreshToken %>>Renew Token</button>
+				<p><a href="/account">check profile</a></p>
+				<p><a href="/logout">Logout</a></p>
+			<% } %>
+		</div>
+
+		
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" crossorigin="anonymous"></script>
+    	<script>
+    		$('.renewToken').click(function(e) {
+    			console.log(e.target.id)
+    			var refreshToken = e.target.id;
+    			var postData = {
+    				refreshToken: refreshToken,
+    			}
+
+    			$.ajax({
+				    url: 'http://localhost:8080/token',
+				    headers: {
+				        'Content-Type':'application/json'
+				    },
+				    method: 'POST',
+				    dataType: 'json',
+				    data: JSON.stringify(postData),
+				    success: function(data){
+				      console.log('succes: '+ JSON.stringify(data.token) );
+				      var newToken = null;
+				      if (data.token) {
+				      	newToken = "accessToken: " + data.token;
+				      } else {
+				      	newToken = "accessToken : error";
+				      }
+				      
+				      $('#accessToken').text(newToken);
+				    }
+				  });	
+    		})
+    	</script>
+	</body>
+</html>
